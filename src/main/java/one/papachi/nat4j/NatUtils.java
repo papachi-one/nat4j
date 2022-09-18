@@ -1,12 +1,5 @@
 package one.papachi.nat4j;
 
-import one.papachi.nat4j.portmapper.MappedPort;
-import one.papachi.nat4j.portmapper.PortMapper;
-import one.papachi.nat4j.portmapper.PortProtocol;
-import one.papachi.nat4j.portmapper.natpmp.NatPmpPortMapper;
-import one.papachi.nat4j.portmapper.pcp.PCPPortMapper;
-import one.papachi.nat4j.portmapper.upnp.UPnPPortMapper;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -26,26 +19,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class NatUtils {
 
-	public static void main(String[] args) throws Exception {
-		System.out.println("DefaultGatewayIPv4 = " + getDefaultGatewayIPv4());
-		System.out.println("LocalAddressToDefaultGatewayIPv4 = " + getLocalAddressToDefaultGatewayIPv4());
-		System.out.println("DefaultGatewayIPv6 = " + getDefaultGatewayIPv6());
-		System.out.println("LocalAddressesToDefaultGatewayIPv6 = " + getLocalAddressesToDefaultGatewayIPv6());
-		List<List<PortMapper>> results = getResultFromTasks(List.of(() -> NatPmpPortMapper.find(), () -> UPnPPortMapper.find(), () -> PCPPortMapper.find()));
-		List<PortMapper> portMappers = results.stream().flatMap(List::stream).toList();
-		portMappers.forEach(System.out::println);
-		Thread.sleep(10000);
-		Optional<MappedPort> mappedPort = portMappers.get(5).mapPort(PortProtocol.TCP, 3000, 3000, 100);
-		System.out.println(mappedPort);
-	}
-	
 	public static final boolean IS_OS_WINDOWS = System.getProperty("os.name").startsWith("Windows");
 	
 	public static final boolean IS_OS_LINUX = System.getProperty("os.name").startsWith("Linux") || System.getProperty("os.name").startsWith("LINUX");
