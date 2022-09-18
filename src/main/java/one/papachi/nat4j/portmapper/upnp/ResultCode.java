@@ -1,0 +1,46 @@
+package one.papachi.nat4j.portmapper.upnp;
+
+import java.util.Arrays;
+
+public enum ResultCode {
+	
+	UNDEFINED(0),
+	SUCCESS(200),
+	INVALID_ACTION(401),
+	INVALID_ARGS(402),
+	ACTION_FAILED(501),
+	ACTION_NOT_AUTHORIZED(606),
+	PINHOLE_SPACE_EXHAUSTED(701),
+	FIREWALL_DISABLED(702),
+	INBOUND_PINHOLE_NOT_ALLOWED(703),
+	NO_SUCH_ENTRY(704),
+	PROTOCOL_NOT_SUPPORTED(705),
+	INTERNAL_PORT_WILDCARDING_NOT_ALLOWED(706),
+	PROTOCOL_WILDCARDING_NOT_ALLOWED(707),
+	WILDCARD_NOT_PERMITTED_SOURCE_IP_FW(708),
+	SPECIFIED_ARRAY_INDEX_INVALID(713),
+	NO_SUCH_ENTRY_IN_ARRAY(714),
+	WILDCARD_NOT_PERMITTED_SOURCE_IP(715),
+	WILDCARD_NOT_PERMITTED_EXTERNAL_PORT(716),
+	CONFLICT_IN_MAPPING_ENTRY(718),
+	SAME_PORT_VALUES_REQUIRED(724),
+	ONLY_PERMANTNT_LEASES_SUPPORTED(725),
+	REMOTE_HOST_ONLY_SUPPORTS_WILDCARD(726),
+	EXTERNAL_PORT_ONLY_SUPPORTS_WILDCARD(727)
+	;
+	
+	public static ResultCode getResultCode(int statusCode) {
+		return Arrays.stream(ResultCode.values()).filter(rc -> rc.getStatusCode() == statusCode).findAny().orElse(UNDEFINED);
+	}
+	
+	private int statusCode;
+
+	private ResultCode(int statusCode) {
+		this.statusCode = statusCode;
+	}
+	
+	public int getStatusCode() {
+		return statusCode;
+	}
+	
+}
